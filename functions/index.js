@@ -14,4 +14,20 @@ app.get("/bird", async (request, response) => {
   response.send(birds);
 });
 
+app.get("/bird/:id", async (request, response) => {
+  const snapshot = await firebase.firestore().collection("birds").doc(request.params.id).get();
+  response.send(snapshot.data());
+});
+
+app.get("/and-more", async (request, response) => {
+  const snapshot = await firebase.firestore().collection("andmore").get();
+  const andmore = snapshot.docs.map(document => document.data());
+  response.send(andmore);
+});
+
+app.get("/and-more/:id", async (request, response) => {
+  const snapshot = await firebase.firestore().collection("andmore").doc(request.params.id).get();
+  response.send(snapshot.data());
+});
+
 exports.api = onRequest(app);
